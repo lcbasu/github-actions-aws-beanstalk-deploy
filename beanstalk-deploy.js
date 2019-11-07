@@ -185,13 +185,20 @@ function deployExistingVersion(application, environmentName, versionLabel) {
     }); 
 }
 
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 function main() {
 
     let application, environmentName, versionLabel, region, file;
     if (IS_GITHUB_ACTION) { //Running in GitHub Actions
         application = process.env.INPUT_APPLICATION_NAME;
         environmentName = process.env.INPUT_ENVIRONMENT_NAME;
-        versionLabel = process.env.INPUT_VERSION_LABEL;
+        versionLabel = uuidv4();
         file = process.env.INPUT_DEPLOYMENT_PACKAGE;
 
         awsApiRequest.accessKey = process.env.INPUT_AWS_ACCESS_KEY;
